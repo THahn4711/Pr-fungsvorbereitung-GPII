@@ -730,10 +730,11 @@ else renderStart();
 </body>
 </html>
 <script>
-// Übermittelt das Ergebnis nach der Abgabe an ein Google-Formular (Ergebnistabelle der Lehrkraft).
+// Ergebnisübermittlung an das Google-Formular und Freischaltung weiterer Versuche durch die Lehrkraft.
 (function () {
   var ZIEL = "https://docs.google.com/forms/d/e/1FAIpQLSewgcILmIdd5bZlYnb0aFTsnqKMDmrrGSTwKJPfWMC0oTXb9w/formResponse";
   var F = { name: "entry.1310728237", klasse: "entry.1103803953", punkte: "entry.1144687010", prozent: "entry.141246579", details: "entry.1853769831" };
+  var CODE_HASH = "62909fae699b78165d7ba299420f103438f109f06d7e3798241ea57483b9d391";
   function hinweis(t) { var n = document.getElementById("sendState"); if (n) n.textContent = t; }
   function senden() {
     if (typeof S === "undefined" || !S || !S.result || S.sent) return;
@@ -744,13 +745,43 @@ else renderStart();
     p.append(F.klasse, S.klasse || "");
     p.append(F.punkte, r.got + "/" + r.max);
     p.append(F.prozent, String(r.pct).replace(".", ","));
-    p.append(F.details, teile + " · " + r.minutes + " min" + (r.auto ? " · automatisch abgegeben" : "") + " · " + new Date(r.at).toLocaleString("de-DE"));
+    p.append(F.details, teile + " · " + r.minutes + " min" + (r.auto ? " · automatisch abgegeben" : "") + (S.attempt > 1 ? " · Versuch " + S.attempt : "") + " · " + new Date(r.at).toLocaleString("de-DE"));
     fetch(ZIEL, { method: "POST", mode: "no-cors", body: p })
       .then(function () { S.sent = true; save(); hinweis("Ergebnis an die Lehrkraft übermittelt."); })
       .catch(function () { hinweis("Ergebnis konnte nicht übermittelt werden. Bitte zeig es deiner Lehrkraft."); });
   }
+  async function codeStimmt(code) {
+    var b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("diag-pkw:" + code));
+    return Array.from(new Uint8Array(b)).map(function (x) { return x.toString(16).padStart(2, "0"); }).join("") === CODE_HASH;
+  }
+  function freischaltBereich() {
+    var karte = document.querySelector("#app section.card");
+    if (!karte || !S || S.phase !== "done") return;
+    var box = el("div", { style: "margin-top:16px;border-top:1px solid var(--line);padding-top:10px" });
+    var knopf = el("button", { type: "button", class: "tbtn", text: "Lehrkraft" });
+    var form = el("div", { class: "row hide", style: "margin-top:8px;align-items:center" });
+    var feld = el("input", { type: "password", inputmode: "numeric", autocomplete: "off", id: "lkcode", "aria-label": "Code der Lehrkraft", placeholder: "Code",
+      style: "border:1px solid var(--line);background:var(--card);border-radius:6px;padding:8px 10px;width:130px" });
+    var ok = el("button", { type: "button", class: "btn", text: "Neuen Versuch freischalten" });
+    var meldung = el("p", { class: "note" });
+    knopf.addEventListener("click", function () { form.classList.toggle("hide"); feld.focus(); });
+    async function freischalten() {
+      if (await codeStimmt(feld.value.trim())) {
+        var n = (S.attempt || 1) + 1;
+        S = { phase: "start", name: S.name, klasse: S.klasse, startedAt: 0, layout: {}, answers: {}, touched: {}, result: null, sent: false, attempt: n };
+        save();
+        renderStart("Versuch " + n + " ist freigeschaltet. Starte, wenn du bereit bist.");
+      } else { meldung.textContent = "Code falsch."; feld.value = ""; feld.focus(); }
+    }
+    ok.addEventListener("click", freischalten);
+    feld.addEventListener("keydown", function (e) { if (e.key === "Enter") freischalten(); });
+    form.append(feld, ok); box.append(knopf, form, meldung); karte.append(box);
+  }
   var abgeben = window.submit;
   window.submit = function (auto) { var x = abgeben(auto); senden(); return x; };
+  var zeigen = window.renderResult;
+  window.renderResult = function () { var x = zeigen.apply(this, arguments); freischaltBereich(); return x; };
+  if (S && S.phase === "done" && S.result) window.renderResult();
   senden();
 })();
 </script>
