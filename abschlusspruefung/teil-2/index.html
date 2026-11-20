@@ -246,6 +246,12 @@ select{border-radius:8px;padding:8px 10px}
 .tf.lab .ch{flex-wrap:wrap;gap:6px;padding-bottom:12px}
 .tf.lab .seg{min-width:64px}
 .opts.multi .opt::before{border-radius:6px!important}
+.zoomable img{cursor:zoom-in}
+.zhint{font-weight:400;opacity:.8}
+.lb{position:fixed;inset:0;z-index:200;background:rgba(10,15,20,.92);overflow:auto;padding:56px 10px 20px;text-align:center}
+.lb img{background:#fff;border-radius:8px;width:max(100%,1000px);max-width:none;height:auto}
+@media (min-width:1100px){.lb img{width:min(1600px,100%)}}
+.lbx{position:fixed;top:10px;right:12px;z-index:201;background:#fff;color:#111;border:0;border-radius:999px;padding:8px 14px;font-weight:600;cursor:pointer}
 </style>
 </head>
 <body>
@@ -637,7 +643,19 @@ const SCENES = {
 function sceneFor(id) { const s = SEC.find(x => x.id === id); const k = s && s.scene; return SCENES[k] ? SCENES[k]() : []; }
 
 // ---------- Darstellung der Aufgaben ----------
-function figure(id, cap) { return el("figure", null, el("div", { class: "plate" }, el("img", { src: FIG[id], alt: cap || "Abbildung", loading: "lazy" })), cap ? el("figcaption", { text: cap }) : null); }
+function zoomFig(src, alt) {
+  const close = () => { lb.remove(); document.removeEventListener("keydown", esc); };
+  const esc = e => { if (e.key === "Escape") close(); };
+  const lb = el("div", { class: "lb", role: "dialog", "aria-label": "Abbildung vergrößert" },
+    el("button", { type: "button", class: "lbx", text: "Schließen ✕", onclick: close }), el("img", { src, alt }));
+  lb.addEventListener("click", e => { if (e.target === lb) close(); });
+  document.addEventListener("keydown", esc); document.body.append(lb); lb.querySelector("button").focus();
+}
+function figure(id, cap) {
+  const img = el("img", { src: FIG[id], alt: cap || "Abbildung", loading: "lazy", title: "Antippen zum Vergrößern" });
+  img.addEventListener("click", () => zoomFig(FIG[id], cap || "Abbildung"));
+  return el("figure", null, el("div", { class: "plate zoomable" }, img), el("figcaption", null, cap || "", el("span", { class: "zhint", text: " · Bild antippen zum Vergrößern" })));
+}
 function tableOf(t) {
   return el("div", { class: "tw" }, el("table", null,
     el("thead", null, el("tr", null, t.head.map(h => el("th", { text: h })))),
@@ -967,7 +985,7 @@ else renderStart();
     p.append(F.prozent, String(r.pct).replace(".", ","));
     if (F.teil) p.append(F.teil, TEIL);
     if (F.note) p.append(F.note, String(r.note || noteOf(r.pct)));
-    p.append(F.details, (F.teil ? "" : TEIL + " · ") + "Note " + (r.note || noteOf(r.pct)) + " · " + teile + " · " + r.minutes + " min" + (r.auto ? " · automatisch abgegeben" : "") + (S.attempt > 1 ? " · Versuch " + S.attempt : "") + " · " + new Date(r.at).toLocaleString("de-DE"));
+    p.append(F.details, (F.teil ? "" : TEIL + " · ") + (F.note ? "" : "Note " + (r.note || noteOf(r.pct)) + " · ") + teile + " · " + r.minutes + " min" + (r.auto ? " · automatisch abgegeben" : "") + (S.attempt > 1 ? " · Versuch " + S.attempt : "") + " · " + new Date(r.at).toLocaleString("de-DE"));
     fetch(ZIEL, { method: "POST", mode: "no-cors", body: p })
       .then(function () { S.sent = true; save(); hinweis("Ergebnis an die Lehrkraft übermittelt."); })
       .catch(function () { hinweis("Ergebnis konnte nicht übermittelt werden. Bitte zeig es deiner Lehrkraft."); });
