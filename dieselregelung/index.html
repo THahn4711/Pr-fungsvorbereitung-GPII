@@ -18,7 +18,7 @@
   --r-sm:10px;--r-md:12px;--r-lg:18px;--shadow:0 1px 3px rgba(15,50,50,.12);
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--ground);color:var(--ink);font-family:'Comic Sans MS','Comic Neue',cursive;font-size:14.67px;line-height:21px}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:14.67px;line-height:21px}
 .wrap{max-width:980px;margin:0 auto;padding:12px 12px 40px}
 header.kopf{background:#fff;border-radius:var(--r-lg);box-shadow:var(--shadow);padding:12px 18px;margin-bottom:12px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}#logo{width:300px;max-width:100%;height:auto;flex:none}
 .badge{flex:none;width:54px;height:54px;border-radius:50%;background:var(--primary);display:grid;place-items:center}
@@ -309,7 +309,7 @@ body.mzopen .wrap{display:none}body.mzopen #mz-view{display:block}
 .railsvg{width:100%;min-width:560px;max-width:690px;height:auto;display:block;background:#fff;border:1px solid var(--border);border-radius:var(--r-md)}
 .railsvg .rs *{fill:#e3f2ef;stroke:#0f766e;stroke-width:2.5}
 .railsvg .rn{fill:#facc15;stroke:#8a6d00;stroke-width:2}
-.railsvg .rt{font-family:"Comic Neue","Comic Sans MS",cursive;font-size:12.5px;fill:#1f2a2e;text-anchor:middle;pointer-events:none}
+.railsvg .rt{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:12.5px;fill:#1f2a2e;text-anchor:middle;pointer-events:none}
 .railsvg .rtn{font-weight:700;font-size:16px}
 .railsvg .rp[role=button]{cursor:pointer}
 .railsvg .rp[role=button]:hover .rs *,.railsvg .rp[role=button]:focus .rs *{fill:#fff3b0}
@@ -964,7 +964,7 @@ function renderRueck(){
     el.innerHTML=`<h2>Rückmeldung beim Common Rail: Raildrucksensor und Mengenabgleich</h2>
     <div class="rbox"><h3>Raildrucksensor (RDS)</h3>Im Sensor verformt der Kraftstoffdruck eine dünne Membran. Die Verformung wird in eine Spannung umgewandelt (Größenordnung 0,5 bis 4,5 V). Das Steuergerät vergleicht den gemessenen Druck mit dem Solldruck aus dem Kennfeld und stellt über das Druckregelventil und das Mengenregelventil nach. <b>Der Sensor ist das einzige „Auge“ der Druckregelung.</b> Zeigt er zu viel an, regelt das Steuergerät auf einen falschen Druck. Der echte Druck liegt dann niedriger, ohne dass der Tester einen Unterschied zwischen Soll und Ist zeigt. Dann hilft nur die Kontrollmessung mit einem Prüfgerät am Rail.</div>
     <div class="rbox" style="background:var(--accent-tint);border-left-color:var(--accent-ink)"><h3>Mengenabgleich der Injektoren</h3>Kein Injektor gleicht dem anderen. Im Leerlauf vergleicht das Steuergerät die Drehzahlbeiträge der Zylinder: Ein Zylinder, der zu wenig Moment liefert, bekommt <b>mehr</b> Menge (positiver Wert), einer mit zu viel Moment bekommt <b>weniger</b> (negativer Wert). Die Korrekturen in mm³ pro Hub siehst du im Tester als <b>Mengenabgleich</b>. Zusätzlich stehen die Kennwerte jedes Injektors als <b>IMA-/ISA-Code</b> im Steuergerät. Sie wurden bei der Herstellung gemessen. Nach einem Injektortausch müssen die Codes neu programmiert werden.
-    <svg viewBox="0 0 640 230" style="width:100%;margin-top:8px;background:#fff;border-radius:10px"><g font-size="17" fill="#1f2a2e" text-anchor="middle" font-family="Comic Neue, Comic Sans MS">
+    <svg viewBox="0 0 640 230" style="width:100%;margin-top:8px;background:#fff;border-radius:10px"><g font-size="17" fill="#1f2a2e" text-anchor="middle" font-family="system-ui, Segoe UI, Roboto, Arial, sans-serif">
       <text x="160" y="24" font-weight="700">Ohne Abgleich</text><text x="480" y="24" font-weight="700">Mit Abgleich</text>
       ${[0,1,2,3].map(i=>{const v=[100,91,107,96][i],w=[100,100,100,100][i];return `<rect x="${60+i*52}" y="${200-v*1.4}" width="38" height="${v*1.4}" fill="${i===1?'#c0392b':'#0f766e'}"/><text x="${79+i*52}" y="218">Z${i+1}</text>`;}).join('')}
       ${[0,1,2,3].map(i=>`<rect x="${380+i*52}" y="${200-100*1.4}" width="38" height="${100*1.4}" fill="#0f766e"/><text x="${399+i*52}" y="218">Z${i+1}</text>`).join('')}
@@ -1104,14 +1104,14 @@ function labPlot(cv,T,panels,evs,r,phO){
     const yt=top+k*(ph+gap)+gap-14, yb=yt+ph, lo=P.ymin, hi=P.ymax;
     const X=t=>x0+(x1-x0)*t/T, Y=v=>yb-(yb-yt)*(clamp(v,lo,hi)-lo)/(hi-lo);
     c.fillStyle='#f6fbfa'; c.fillRect(x0,yt,x1-x0,ph);
-    c.strokeStyle='#d7e6e3'; c.lineWidth=1.5; c.font='20px "Comic Neue","Comic Sans MS",sans-serif'; c.fillStyle='#34454a'; c.textAlign='right';
+    c.strokeStyle='#d7e6e3'; c.lineWidth=1.5; c.font='20px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif'; c.fillStyle='#34454a'; c.textAlign='right';
     for(let i=0;i<=4;i++){const v=lo+(hi-lo)*i/4,y=Y(v);c.beginPath();c.moveTo(x0,y);c.lineTo(x1,y);c.stroke();c.fillText((hi-lo)<10?f1(v):Math.round(v),x0-8,y+7);}
     const st=[1,2,5,10,20,50,100,200,500,1000].find(s=>T/s<=7)||1000; c.textAlign='center';
     for(let t=0;t<=T+1e-9;t+=st){const x=X(t);c.beginPath();c.moveTo(x,yt);c.lineTo(x,yb);c.stroke();c.fillText(t+(P.xo||0),x,yb+22);}
     c.textAlign='center';c.fillText('Einheit: '+(P.xl||'s'),(x0+x1)/2,yb+50);
     // Titel + Legende
-    c.textAlign='left'; c.font='bold 22px "Comic Neue","Comic Sans MS",sans-serif'; c.fillStyle='#134e4a'; let tx=x0; c.fillText(P.title,tx,yt-10); tx+=c.measureText(P.title).width+14;
-    c.font='19px "Comic Neue","Comic Sans MS",sans-serif';
+    c.textAlign='left'; c.font='bold 22px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif'; c.fillStyle='#134e4a'; let tx=x0; c.fillText(P.title,tx,yt-10); tx+=c.measureText(P.title).width+14;
+    c.font='19px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
     (P.hl||[]).forEach(h=>{c.strokeStyle=h.c||LC.r;c.setLineDash([8,6]);c.lineWidth=2.5;const y=Y(h.y);c.beginPath();c.moveTo(x0,y);c.lineTo(x1,y);c.stroke();c.setLineDash([]);c.fillStyle=h.c||LC.r;c.textAlign='right';c.fillText(h.l,x1-6,y-6);c.textAlign='left';});
     P.s.forEach(s=>{
       if(typeof LABHIDE!=='undefined'&&LABHIDE[s.n]) return;
@@ -1125,7 +1125,7 @@ function labPlot(cv,T,panels,evs,r,phO){
   const y0=top+gap-14, yE=top+(panels.length-1)*(ph+gap)+gap-14+ph;
   (evs||[]).forEach((e,i)=>{ if(e.t>r*T) return; const x=x0+(x1-x0)*e.t/T;
     c.strokeStyle='#92400e';c.lineWidth=2;c.setLineDash([5,5]);c.beginPath();c.moveTo(x,y0);c.lineTo(x,yE);c.stroke();c.setLineDash([]);
-    c.font='bold 19px "Comic Neue","Comic Sans MS",sans-serif';const w=c.measureText(e.l).width+12;const bx=Math.min(x+3,x1-w);const by=y0+6+(i%3)*26;
+    c.font='bold 19px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';const w=c.measureText(e.l).width+12;const bx=Math.min(x+3,x1-w);const by=y0+6+(i%3)*26;
     c.fillStyle='#fff6d6';c.fillRect(bx,by,w,24);c.strokeStyle='#b45309';c.lineWidth=1.5;c.strokeRect(bx,by,w,24);c.fillStyle='#7a4a00';c.textAlign='left';c.fillText(e.l,bx+6,by+18);});
 }
 const rec=(a,v)=>a.push(v);
@@ -1435,7 +1435,7 @@ function drawMap(){
   const cur=mp.f(m0), curTxt=mp.fmt(cur)+(mp.u?' '+mp.u:'');
   g.clearRect(0,0,W,H);
   const CBR=150; // rechter Rand für Farbskala
-  g.font='22px "Comic Neue","Comic Sans MS",cursive';
+  g.font='22px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
   if(mapMode==='2d') draw2d(g,W,H,CBR,G,mp,norm,sc,cur,curTxt); else draw3d(g,W,H,CBR,G,mp,norm,sc,cur,curTxt);
   // Farbskala
   const bx=W-CBR+22, bw=26, by=40, bh=H-90;
@@ -1443,7 +1443,7 @@ function drawMap(){
   g.strokeStyle='#9fb3af';g.lineWidth=1;g.strokeRect(bx,by,bw,bh);
   g.fillStyle='#1f2a2e';g.textAlign='left';
   for(let t=sc.lo;t<=sc.hi+sc.step*0.01;t+=sc.step){const y=by+bh-norm(t)*bh;g.beginPath();g.moveTo(bx+bw,y);g.lineTo(bx+bw+6,y);g.stroke();g.fillText(fmtTick(t,sc.step),bx+bw+9,y+7);}
-  g.textAlign='center';g.font='bold 20px "Comic Neue","Comic Sans MS",cursive';g.fillText(mp.u||'λ',bx+bw/2+24,by-14);
+  g.textAlign='center';g.font='bold 20px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';g.fillText(mp.u||'λ',bx+bw/2+24,by-14);
   // Kopf + Legende
   $('#maplegend').textContent=mapName(mapKey)+(mp.u?' in '+mp.u:'')+' · Skala '+fmtTick(sc.lo,sc.step)+' bis '+fmtTick(sc.hi,sc.step)+(mapKey==='R'?' (λ über 4 wird als 4 dargestellt)':'')+' · Rot: Rauchbegrenzung aktiv · Ziehen dreht die Fläche.';
   // Wertetabelle
@@ -1451,14 +1451,14 @@ function drawMap(){
   $('#mapread').innerHTML=`<div class="nebentext" style="margin-bottom:4px">Pedal ${f0(S.pedal)} % · ${f0(S.n)} /min · Kühlmittel ${S.T} °C</div><table><tr><th>Größe</th><th>Wert</th><th>Einheit</th></tr>${rows}</table>`;
 }
 function bubble(g,x,y,txt,W,aw){
-  g.font='bold 22px "Comic Neue","Comic Sans MS",cursive';
+  g.font='bold 22px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
   const tw=g.measureText(txt).width+18, th=32;
   let bx=x+14, by=y-th-10;
   if(bx+tw>aw) bx=x-14-tw; if(by<2) by=y+12;
   g.fillStyle='rgba(255,255,255,.95)';g.strokeStyle='#115e59';g.lineWidth=2;
   g.beginPath();g.roundRect?g.roundRect(bx,by,tw,th,8):g.rect(bx,by,tw,th);g.fill();g.stroke();
   g.fillStyle='#115e59';g.textAlign='left';g.fillText(txt,bx+9,by+23);
-  g.font='22px "Comic Neue","Comic Sans MS",cursive';
+  g.font='22px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 }
 function haloText(g,t,x,y){g.save();g.lineWidth=5;g.strokeStyle='rgba(255,255,255,.92)';g.lineJoin='round';g.strokeText(t,x,y);g.restore();g.fillText(t,x,y);}
 function dot(g,x,y,red){
@@ -1513,10 +1513,10 @@ function draw3d(g,W,H,CBR,G,mp,norm,sc,cur,curTxt){
   // z-Achse (hinten, auf der linken Seite)
   const rightX=1-leftX, z0=P(rightX,backY,0), z1=P(rightX,backY,1);
   g.beginPath();g.moveTo(z0.x,z0.y);g.lineTo(z1.x,z1.y);g.stroke();
-  g.textAlign='left';g.font='20px "Comic Neue","Comic Sans MS",cursive';
+  g.textAlign='left';g.font='20px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
   for(let t=sc.lo;t<=sc.hi+sc.step*0.01;t+=sc.step){const q=P(rightX,backY,norm(t));g.beginPath();g.moveTo(q.x,q.y);g.lineTo(q.x+6,q.y);g.stroke();haloText(g,fmtTick(t,sc.step),q.x+9,q.y+6);}
-  g.textAlign='center';g.font='bold 20px "Comic Neue","Comic Sans MS",cursive';haloText(g,mp.u||'λ',z1.x,z1.y-12);
-  g.font='22px "Comic Neue","Comic Sans MS",cursive';
+  g.textAlign='center';g.font='bold 20px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';haloText(g,mp.u||'λ',z1.x,z1.y-12);
+  g.font='22px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
   // Betriebspunkt mit Stiel und Wert
   const xn=(S.n-700)/3900, yp=S.pedal/100, top=P(xn,yp,norm(cur)), bot=P(xn,yp,0);
   g.strokeStyle='#1f2a2e';g.lineWidth=2;g.setLineDash([5,4]);g.beginPath();g.moveTo(bot.x,bot.y);g.lineTo(top.x,top.y);g.stroke();g.setLineDash([]);
@@ -1741,7 +1741,7 @@ function drawCyl(g,cx,top,H,c,phi,sys,mini){
   g.fillStyle='#fff';g.fillRect(wallL-18,top-86+(sys==='cr'?26:0),hw*2+36,0);
   if(mini) return;
   // Beschriftung
-  g.font='22px "Comic Neue","Comic Sans MS",cursive';g.fillStyle='#1f2a2e';g.textAlign='left';
+  g.font='22px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';g.fillStyle='#1f2a2e';g.textAlign='left';
   const lab=(t,x,y,anchor)=>{g.textAlign=anchor||'left';g.lineWidth=4;g.strokeStyle='#fff';g.strokeText(t,x,y);g.fillText(t,x,y);};
   lab(sys==='cr'?'Injektor':'Pumpe-Düse',cx-20,top-34,'right');
   if(sys==='cr') lab('vom Rail',wallR+62,top-32,'right');
@@ -1759,8 +1759,8 @@ const ZHIDE={};
  $$('#zchips .chip').forEach(b=>b.onclick=()=>{ZHIDE[b.dataset.k]=!ZHIDE[b.dataset.k];b.classList.toggle('off',!!ZHIDE[b.dataset.k]);drawZyk();});})();
 function drawZyk(){
   const c=zUpdate.c; if(!c) return;
-  const cv=$('#zyk'), g=cv.getContext('2d'), W=cv.width, H=cv.height, L0=96; g.clearRect(0,0,W,H); g.font='24px "Comic Neue","Comic Sans MS",cursive'; const idx=clamp(Math.round(Z.ph+180),0,360);
-  {const mx=W-166,my=10; g.save(); g.translate(mx,my); g.scale(0.44,0.44); g.fillStyle='#fff'; g.fillRect(0,0,360,560); g.strokeStyle='#cfdcd9'; g.lineWidth=4; g.strokeRect(0,0,360,560); drawCyl(g,180,92,560,c,Z.ph,SYS,true); g.restore(); g.save(); g.font='22px "Comic Neue","Comic Sans MS",cursive'; g.fillStyle='#1f2a2e'; g.textAlign='center'; g.fillText('Kolben bei '+Math.round(Z.ph)+'°',mx+79,my+270); g.restore();}
+  const cv=$('#zyk'), g=cv.getContext('2d'), W=cv.width, H=cv.height, L0=96; g.clearRect(0,0,W,H); g.font='24px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif'; const idx=clamp(Math.round(Z.ph+180),0,360);
+  {const mx=W-166,my=10; g.save(); g.translate(mx,my); g.scale(0.44,0.44); g.fillStyle='#fff'; g.fillRect(0,0,360,560); g.strokeStyle='#cfdcd9'; g.lineWidth=4; g.strokeRect(0,0,360,560); drawCyl(g,180,92,560,c,Z.ph,SYS,true); g.restore(); g.save(); g.font='22px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif'; g.fillStyle='#1f2a2e'; g.textAlign='center'; g.fillText('Kolben bei '+Math.round(Z.ph)+'°',mx+79,my+270); g.restore();}
   // Diagramm
   const L=L0,R=14,Tp=16,B=66,pw=W-L-R,ph=H-Tp-B;
   const pmax=Math.max(160,c.pk*1.1), X=f=>L+(f+180)/360*pw, Y=p=>Tp+ph-p/pmax*ph;
@@ -2141,7 +2141,7 @@ function lrPhase(t){const P=LRP(); if(!P.on) return 'Regelung ausgeschaltet. Die
 function lrDraw(t){
   const cv=$('#lr-cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height,L=92,R=16,T=18,B=60,pw=W-L-R,ph=H-T-B,ym=14;
   const X=s=>L+s/LRT*pw,Y=v=>T+ph/2-v/ym*ph/2;
-  g.clearRect(0,0,W,H);g.font='22px "Comic Neue","Comic Sans MS",cursive';g.fillStyle='#4b5a5e';g.strokeStyle='#e3ebe9';g.lineWidth=1;g.textAlign='right';
+  g.clearRect(0,0,W,H);g.font='22px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';g.fillStyle='#4b5a5e';g.strokeStyle='#e3ebe9';g.lineWidth=1;g.textAlign='right';
   for(let v=-12;v<=12;v+=6){g.beginPath();g.moveTo(L,Y(v));g.lineTo(L+pw,Y(v));g.stroke();g.fillText((v>0?'+':'')+v,L-8,Y(v)+7);}
   g.textAlign='center';for(let s=0;s<=LRT;s+=3){g.fillText(s,X(s),H-B+28);}
   g.fillText('Zeit in s',L+pw/2,H-10);
@@ -2154,16 +2154,16 @@ function lrDraw(t){
 function lrBars(p,now){
   const cv=$('#lr-bar'),g=cv.getContext('2d'),W=cv.width,H=cv.height,L=92,R=16,T=26,B=96,pw=W-L-R,ph=H-T-B,lo=4,hi=8;
   const Y=v=>T+ph-(v-lo)/(hi-lo)*ph;
-  g.clearRect(0,0,W,H);g.font='22px "Comic Neue","Comic Sans MS",cursive';g.fillStyle='#4b5a5e';g.strokeStyle='#e3ebe9';g.lineWidth=1;g.textAlign='right';
+  g.clearRect(0,0,W,H);g.font='22px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';g.fillStyle='#4b5a5e';g.strokeStyle='#e3ebe9';g.lineWidth=1;g.textAlign='right';
   for(let v=lo;v<=hi;v+=1){g.beginPath();g.moveTo(L,Y(v));g.lineTo(L+pw,Y(v));g.stroke();g.fillText(v.toFixed(0),L-8,Y(v)+7);}
   g.save();g.translate(24,T+ph/2);g.rotate(-Math.PI/2);g.textAlign='center';g.fillText('Menge in mm³/Hub (ab 4)',0,0);g.restore();
   const bw=pw/4*0.55, cx=i=>L+pw/4*(i+0.5), act=LR.run?LRORD[Math.floor((now||0)/500)%4]:-1;
   let weak=0; p.corr.forEach((c,i)=>{if(c>p.corr[weak])weak=i;}); const pred=LRORD[(LRORD.indexOf(weak)+3)%4], show=p.on&&p.corr[weak]>0.15;
   p.q.forEach((q,i)=>{const x=cx(i)-bw/2; g.fillStyle=LRC[i]; g.fillRect(x,Y(q),bw,Y(lo)-Y(q)); if(i===act){g.strokeStyle='#1f2a2e';g.lineWidth=4;g.strokeRect(x-3,Y(q)-3,bw+6,Y(lo)-Y(q)+3);} g.fillStyle='#1f2a2e';g.textAlign='center';g.fillText(q.toFixed(2).replace('.',','),cx(i),Y(q)-8);g.fillText('Zyl. '+(i+1),cx(i),H-B+28);
-    if(show&&i===weak){g.fillStyle='#0b5d2a';g.font='bold 22px "Comic Neue","Comic Sans MS",cursive';g.fillText('▲ mehr',cx(i),Y(q)-34);} if(show&&i===pred){g.fillStyle='#b42318';g.font='bold 22px "Comic Neue","Comic Sans MS",cursive';g.fillText('▼ weniger',cx(i),Y(q)-34);} g.font='22px "Comic Neue","Comic Sans MS",cursive'; });
+    if(show&&i===weak){g.fillStyle='#0b5d2a';g.font='bold 22px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';g.fillText('▲ mehr',cx(i),Y(q)-34);} if(show&&i===pred){g.fillStyle='#b42318';g.font='bold 22px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';g.fillText('▼ weniger',cx(i),Y(q)-34);} g.font='22px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif'; });
   g.setLineDash([8,6]);g.strokeStyle='#1f2a2e';g.lineWidth=2;g.beginPath();g.moveTo(L,Y(5.5));g.lineTo(L+pw,Y(5.5));g.stroke();g.setLineDash([]);
   g.textAlign='left';g.fillStyle='#1f2a2e';g.fillText('- - -  Ausgangsmenge 5,5',L+8,T+16);
-  g.textAlign='center';g.fillStyle='#4b5a5e';g.font='20px "Comic Neue","Comic Sans MS",cursive';g.fillText('Zündfolge: '+LRORD.map(k=>k+1).join(' → ')+' → 1',L+pw/2,H-34);
+  g.textAlign='center';g.fillStyle='#4b5a5e';g.font='20px system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';g.fillText('Zündfolge: '+LRORD.map(k=>k+1).join(' → ')+' → 1',L+pw/2,H-34);
   if(act>=0){g.fillStyle=LRC[act];g.beginPath();g.arc(cx(act),H-B+46,9,0,7);g.fill();g.fillStyle='#4b5a5e';g.fillText('gerade zündet Zyl. '+(act+1),L+pw/2,H-8);}
   const zf=$('#lr-zf'); if(zf){ zf.innerHTML=show?`<b>Zündfolge ${LRORD.map(k=>k+1).join(' – ')}:</b> Zylinder ${weak+1} ist schwach und bekommt <b>mehr</b> Menge. Der Zylinder davor in der Zündfolge, <b>Zylinder ${pred+1}</b>, bekommt dafür <b>weniger</b>.`:'<b>Zündfolge '+LRORD.map(k=>k+1).join(' – ')+':</b> Die Zylinder zünden der Reihe nach. Sobald ein Zylinder schwächer wird und die Regelung eingreift, erhält er mehr Menge. Der Zylinder davor in der Zündfolge bekommt weniger.'; }
 }
@@ -2662,7 +2662,7 @@ ${nachweis(o)}
 <p class="sm quel"><b>Quellen und Hinweise:</b> Herstellerunterlagen und Fachliteratur zu drehmomentgeführten Dieselregelungen (zum Beispiel EDC 16); Bosch-Unterlagen zu Common Rail (Diagnose, Beispielwerte); SAE J2012 (Diagnosecodes). Die Lernseite ist ein Lehrmodell mit typischen Größenordnungen, keine Herstellerdaten, und nicht für Reparaturentscheidungen gedacht. Maßgeblich sind die aktuellen Prüf- und Reparaturanweisungen des Herstellers.</p>`;
   }
   const CSS=`
-.mz{font-family:'Comic Sans MS','Comic Neue',cursive;font-size:11pt;line-height:1.4;color:#1f2a2e}
+.mz{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;font-size:11pt;line-height:1.4;color:#1f2a2e}
 .mz h1{margin:0;font-size:22pt;color:#0f766e}.mz .sub{color:#115e59;font-weight:700}
 .mz .mzhead{display:flex;gap:14pt;align-items:center;border-bottom:4pt solid #f2c94c;padding-bottom:8pt;margin-bottom:8pt}
 .mz .mzlogo{height:54pt;width:auto}
